@@ -17,6 +17,12 @@
       animation: pulse 2s infinite;
     }
 
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
     video {
       border: 5px dashed #ff69b4;
       border-radius: 20px;
@@ -45,30 +51,24 @@
       margin-top: 30px;
       font-size: 1.4em;
       color: #6f42c1;
-      min-height: 120px;
+      min-height: 100px;
     }
 
     audio {
       margin-top: 20px;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
   <h1>🎭 Mood Swinger 5000</h1>
-  <p>Let the camera "analyze" your face 🤔</p>
+  <p>We are scanning your face... totally fake AI!</p>
 
-  <video id="video" autoplay></video>
-  <br>
-  <button onclick="analyzeMood()">🔮 Analyze Mood</button>
+  <video id="video" autoplay muted></video><br>
 
-  <div class="result" id="result">Waiting to detect your confused aura...</div>
+  <button onclick="analyzeMood()">🔮 Analyze My Mood</button>
+
+  <div class="result" id="result">Camera ready. Click button to detect your "mood".</div>
 
   <audio id="songPlayer" controls hidden>
     <source id="songSource" src="" type="audio/mp3">
@@ -76,17 +76,18 @@
   </audio>
 
   <script>
-    // Get camera
+    // Access webcam
     const video = document.getElementById('video');
     navigator.mediaDevices.getUserMedia({ video: true })
       .then(stream => {
         video.srcObject = stream;
       })
-      .catch(err => {
-        alert("Camera access denied. Can't detect your potato-like expression.");
+      .catch(error => {
+        document.getElementById("result").innerText = "Camera access failed. Please allow permission.";
+        console.error("Camera error:", error);
       });
 
-    // Moods, Advice, Songs
+    // Fake mood + advice + song
     const moods = [
       "Suspicious waffle 🧇",
       "Emotionally unstable jellyfish 🪼",
@@ -98,14 +99,37 @@
 
     const advice = [
       "Water your plants. Then ask them how *they* feel.",
-      "Consider yelling into a banana. Therapy is expensive.",
-      "Meditate while doing jumping jacks. Confuse your soul.",
+      "Yell into a banana. Therapy is expensive.",
+      "Meditate while eating tacos. Confuse your soul.",
       "Buy googly eyes. Stick them on your furniture.",
       "Tell the moon your secrets. It won’t judge you.",
-      "Sneeze dramatically in public. Establish dominance."
+      "Blink aggressively to assert dominance."
     ];
 
     const songs = [
       "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
       "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-      "https://www.soundhelix.com/examples/mp3/Sou
+      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3"
+    ];
+
+    function analyzeMood() {
+      const mood = moods[Math.floor(Math.random() * moods.length)];
+      const tip = advice[Math.floor(Math.random() * advice.length)];
+      const song = songs[Math.floor(Math.random() * songs.length)];
+
+      document.getElementById("result").innerHTML = `
+        <p><strong>Mood Detected:</strong> ${mood}</p>
+        <p><strong>Advice:</strong> ${tip}</p>
+      `;
+
+      const songSource = document.getElementById("songSource");
+      const player = document.getElementById("songPlayer");
+      songSource.src = song;
+      player.load();
+      player.hidden = false;
+      player.play();
+    }
+  </script>
+
+</body>
+</html>
