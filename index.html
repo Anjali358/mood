@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Swinger 5000</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 2.8em;
+      color: #d63384;
+      animation: pulse 2s infinite;
+    }
+
+    video {
+      border: 5px dashed #ff69b4;
+      border-radius: 20px;
+      width: 300px;
+      height: auto;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 15px 30px;
+      font-size: 1.2em;
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #c2185b;
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 1.4em;
+      color: #6f42c1;
+      min-height: 120px;
+    }
+
+    audio {
+      margin-top: 20px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎭 Mood Swinger 5000</h1>
+  <p>Let the camera "analyze" your face 🤔</p>
+
+  <video id="video" autoplay></video>
+  <br>
+  <button onclick="analyzeMood()">🔮 Analyze Mood</button>
+
+  <div class="result" id="result">Waiting to detect your confused aura...</div>
+
+  <audio id="songPlayer" controls hidden>
+    <source id="songSource" src="" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Get camera
+    const video = document.getElementById('video');
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        video.srcObject = stream;
+      })
+      .catch(err => {
+        alert("Camera access denied. Can't detect your potato-like expression.");
+      });
+
+    // Moods, Advice, Songs
+    const moods = [
+      "Suspicious waffle 🧇",
+      "Emotionally unstable jellyfish 🪼",
+      "Philosophical raccoon 🦝",
+      "Overdramatic teacup ☕",
+      "Zen goldfish 🐟",
+      "Panic-struck marshmallow 🍬"
+    ];
+
+    const advice = [
+      "Water your plants. Then ask them how *they* feel.",
+      "Consider yelling into a banana. Therapy is expensive.",
+      "Meditate while doing jumping jacks. Confuse your soul.",
+      "Buy googly eyes. Stick them on your furniture.",
+      "Tell the moon your secrets. It won’t judge you.",
+      "Sneeze dramatically in public. Establish dominance."
+    ];
+
+    const songs = [
+      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+      "https://www.soundhelix.com/examples/mp3/Sou
